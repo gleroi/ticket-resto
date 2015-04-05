@@ -4,5 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:micro="using:Caliburn.Micro"
     xmlns:local="using:TicketResto.PhoneApp">
+	<Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="Converters.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
 
 </micro:CaliburnApplication>

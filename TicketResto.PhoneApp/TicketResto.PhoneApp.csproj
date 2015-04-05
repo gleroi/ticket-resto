@@ -90,6 +90,7 @@
     <Compile Include="Common\ObservableDictionary.cs" />
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
+    <Compile Include="Converters\DecimalConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TicketDescriptionView.xaml.cs">
       <DependentUpon>TicketDescriptionView.xaml</DependentUpon>
@@ -140,10 +141,21 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Converters.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
     <Page Include="TicketDescriptionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TicketResto.Core\TicketResto.Core.csproj">
+      <Project>{36d8afbd-f20c-4227-b4c6-43fe65be2688}</Project>
+      <Name>TicketResto.Core</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>

@@ -29,7 +29,14 @@ namespace TicketResto.PhoneApp
             InitializeComponent();
         }
 
-        protected override void OnLaunched(LaunchActivatedEventArgs args)
+		protected override object GetInstance(Type service, string key)
+		{
+			if (service == typeof(AppViewModel))
+				return new AppViewModel(new Core.TicketsApp());
+			return base.GetInstance(service, key);
+		}
+
+		protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
             base.OnLaunched(args);
             this.DisplayRootViewFor<AppViewModel>();

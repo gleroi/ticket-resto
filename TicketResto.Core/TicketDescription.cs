@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TicketResto.Core
 {
-    class TicketDescription
+    public class TicketDescription
     {
         public decimal Value { get; private set; }
         public int MaxQuantity { get; private set; }

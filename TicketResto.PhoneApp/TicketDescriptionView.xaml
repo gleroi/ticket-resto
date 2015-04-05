@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="75"
+    d:DesignHeight="60"
     d:DesignWidth="400">
     
     <Grid>
@@ -15,12 +15,12 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         
-        <TextBox x:Name="Value" InputScope="Number"  />
+        <TextBox x:Name="Value" InputScope="Number" Text="{Binding Path=Value, Mode=TwoWay, Converter={StaticResource DecimalConverter}}"  />
         
-        <StackPanel Grid.Column="1" Orientation="Horizontal">
+        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
             <AppBarButton x:Name="DecreaseQuantity" Icon="Remove" />
             <TextBlock x:Name="MaxQuantity" FontSize="30" Width="35"
-                       VerticalAlignment="Center"
+                       VerticalAlignment="Center" Margin="0 0 0 7"
                        TextAlignment="Center" />
             <AppBarButton x:Name="IncreaseQuantity" Icon="Add" />
         </StackPanel>

@@ -8,33 +8,98 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid x:Name="LayoutRoot">
+	<Page.Resources>
+		<ResourceDictionary Source="Converters.xaml" />
+	</Page.Resources>
 
-        <Grid.ChildrenTransitions>
-            <TransitionCollection>
-                <EntranceThemeTransition/>
-            </TransitionCollection>
-        </Grid.ChildrenTransitions>
+	<Grid x:Name="LayoutRoot">
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+		<Grid.ChildrenTransitions>
+			<TransitionCollection>
+				<EntranceThemeTransition/>
+			</TransitionCollection>
+		</Grid.ChildrenTransitions>
 
-        <!-- Title Panel -->
-        <StackPanel Grid.Row="0" Margin="19,0,0,0">
-            <TextBlock Text="Ticket Resto" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
-        </StackPanel>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition Height="*"/>
+		</Grid.RowDefinitions>
 
-        <!--TODO: Content should be placed within the following grid-->
-        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
-            <ItemsControl x:Name="TicketDescriptions" />
-        </Grid>
-    </Grid>
-    
-    <Page.BottomAppBar>
-        <CommandBar>
-            <AppBarButton x:Name="AddTicketDescription" Icon="Add" />
-        </CommandBar>
-    </Page.BottomAppBar>
+		<!-- Title Panel -->
+		<StackPanel Grid.Row="0" Margin="19,0,0,0">
+			<TextBlock Text="Ticket Resto" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+		</StackPanel>
+
+		<!--TODO: Content should be placed within the following grid-->
+		<Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
+			<ItemsControl x:Name="TicketDescriptions" />
+		</Grid>
+
+		<Grid Grid.Row="2">
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="Auto" />
+				<ColumnDefinition Width="*" />
+				<ColumnDefinition Width="Auto" />
+			</Grid.ColumnDefinitions>
+			<TextBlock Text="Bill" 
+					   VerticalAlignment="Center"
+					   FontSize="30"
+					   Margin="3"
+					   Style="{ThemeResource BaseTextBlockStyle}" />
+			<TextBox Grid.Column="1" x:Name="BillValue" 
+					 Margin="3 12 3 3"
+					 InputScope="Number"
+					 Text="{Binding BillValue, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" />
+			<Button Grid.Column="2" 
+					Margin="3"
+					x:Name="Compute" Content="Compute" />
+		</Grid>
+
+		<Grid Grid.Row="3">
+			<ItemsControl x:Name="Results" ItemsSource="{Binding Results}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Grid>
+							<Grid.ColumnDefinitions>
+								<ColumnDefinition Width="*" />
+								<ColumnDefinition Width="Auto" />
+							</Grid.ColumnDefinitions>
+
+							<ItemsControl x:Name="Tickets"
+										  ItemsSource="{Binding Tickets}">
+								<ItemsControl.ItemsPanel>
+									<ItemsPanelTemplate>
+										<StackPanel Orientation="Horizontal" />
+									</ItemsPanelTemplate>
+								</ItemsControl.ItemsPanel>
+								<ItemsControl.ItemTemplate>
+									<DataTemplate>
+										<StackPanel Margin="5">
+											<TextBlock x:Name="MaxQuantity" Text="{Binding MaxQuantity}" 
+													   FontSize="30"/>
+											<TextBlock x:Name="Value" Text="{Binding Value}"
+													   FontSize="15" />
+
+										</StackPanel>
+									</DataTemplate>
+								</ItemsControl.ItemTemplate>
+							</ItemsControl>
+							<TextBlock Grid.Column="1" x:Name="ChangeValue" 
+									   VerticalAlignment="Center" TextAlignment="Center"
+									   Text="{Binding ChangeValue}" 
+									   FontSize="30" />
+						</Grid>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+		</Grid>
+	</Grid>
+
+	<Page.BottomAppBar>
+		<CommandBar>
+			<AppBarButton x:Name="AddTicketDescription" Icon="Add" />
+		</CommandBar>
+	</Page.BottomAppBar>
 </Page>

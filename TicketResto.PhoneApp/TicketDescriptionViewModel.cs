@@ -26,7 +26,7 @@ namespace TicketResto.PhoneApp
         public decimal Value
         {
             get { return _value; }
-            set { _value = value; this.RaisePropertyChanged(); }
+            set { _value = value; this.RaisePropertyChanged();}
         }
 
         void IncreaseQuantity()
