@@ -12,7 +12,7 @@
         <ResourceDictionary Source="Converters.xaml" />
     </Page.Resources>
 
-    <Grid x:Name="LayoutRoot">
+    <Grid x:Name="LayoutRoot" Margin="3 0 3 0">
 
         <Grid.ChildrenTransitions>
             <TransitionCollection>
@@ -32,76 +32,117 @@
             <TextBlock Text="Tickets Répartis" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
         </StackPanel>
 
-        <!--TODO: Content should be placed within the following grid-->
-        <Grid Grid.Row="1" x:Name="ContentRoot" Margin="19,9.5,19,0">
-            <ItemsControl x:Name="TicketDescriptions" />
-        </Grid>
-
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBlock Text="€" 
-					   VerticalAlignment="Center"
-					   FontSize="45"
-                       Padding="0 0 0 12"
-					   Style="{ThemeResource BaseTextBlockStyle}" />
-            <TextBox Grid.Column="1" x:Name="BillValue" 
-					 Margin="3 12 3 3"
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Montant" 
+                       Padding="0 0 0 0"
+					   Style="{ThemeResource BodyTextBlockStyle}" />
+
+            <TextBox Grid.Column="0" Grid.Row="1"
+                     x:Name="BillValue" 
+					 Margin="3 9 3 3"
 					 InputScope="Number"
 					 Text="{Binding BillValue, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" />
-            <Button Grid.Column="2" 
-					Margin="3"
+
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="€" 
+                       FontSize="40" Margin="0 7 5 0" />
+
+            <Button Grid.Column="2" Grid.Row="1"
+					Margin="0 0 0 0" Padding="0"
 					x:Name="Compute" Content="Répartir" />
         </Grid>
 
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60*" />
+                    <ColumnDefinition Width="40*" />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Tickets" Style="{StaticResource BodyTextBlockStyle}" />
+
+                <TextBlock Grid.Row="1" Margin="3 0 7 0" Text="Valeur" Style="{StaticResource GroupHeaderTextBlockStyle}" />
+                <TextBlock Grid.Row="1" Grid.Column="1" Margin="3 0 0 0" Text="Quantité" Style="{StaticResource GroupHeaderTextBlockStyle}" />
+            </Grid>
+
+            <ItemsControl Grid.Row="1" x:Name="TicketDescriptions" />
+        </Grid>
+
+
+
         <Grid Grid.Row="3">
-            <ScrollViewer>
-                <ItemsControl x:Name="Results" ItemsSource="{Binding Results}">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Solutions de paiement" Style="{StaticResource BodyTextBlockStyle}" />
 
-                                <ItemsControl x:Name="Tickets"
+                <ScrollViewer Grid.Row="1">
+                    <ItemsControl x:Name="Results" ItemsSource="{Binding Results}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="3 0 3 0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <ItemsControl x:Name="Tickets"
 										  ItemsSource="{Binding Tickets}">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Horizontal" />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <StackPanel Margin="5">
-                                                <TextBlock x:Name="MaxQuantity" Text="{Binding MaxQuantity}" 
-													   FontSize="30"/>
-                                                <TextBlock x:Name="Value" Text="{Binding Value}"
-													   FontSize="15" />
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Margin="5">
+                                                    <TextBlock x:Name="MaxQuantity" Text="{Binding MaxQuantity}" 
+													   Style="{StaticResource ListViewItemTextBlockStyle}" />
+                                                    <TextBlock x:Name="Value" Text="{Binding Value}"
+													   Style="{StaticResource BodyTextBlockStyle}" />
 
-                                            </StackPanel>
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
-                                <TextBlock Grid.Column="1" x:Name="ChangeValue" 
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <TextBlock Grid.Column="1" x:Name="ChangeValue" 
 									   VerticalAlignment="Center" TextAlignment="Center"
-									   Text="{Binding ChangeValue}" 
-									   FontSize="30" />
-                            </Grid>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
+									   Text="{Binding ChangeValue, Converter={StaticResource DecimalConverter}}" 
+									   Style="{StaticResource ListViewItemTextBlockStyle}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </Grid>
         </Grid>
     </Grid>
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton x:Name="AddTicketDescription" Icon="Add" />
+            <AppBarButton x:Name="AddTicketDescription" Icon="Add" Label="Ticket" />
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

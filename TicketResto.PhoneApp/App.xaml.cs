@@ -38,8 +38,11 @@ namespace TicketResto.PhoneApp
 
 		protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            base.OnLaunched(args);
+            if (args.PreviousExecutionState == ApplicationExecutionState.Running)
+                return;
+
             this.DisplayRootViewFor<AppViewModel>();
+            base.OnLaunched(args);
         }
     }
 }
