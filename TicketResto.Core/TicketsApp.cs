@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
+using Windows.Storage;
 
 namespace TicketResto.Core
 {
@@ -61,5 +64,44 @@ namespace TicketResto.Core
 				current = Next(current, descs);
 			}
 		}
+
+        public async Task<IEnumerable<TicketDescription>> GetTicketDescriptions()
+        {
+            var tickets = await this.ReadTickets();
+            if (tickets == null || !tickets.Any())
+            {
+                return new List<TicketDescription> { new TicketDescription(7.50M, 5) };
+            }
+            return tickets;
+        }
+
+        private async Task<IEnumerable<TicketDescription>> ReadTickets()
+        {
+            var folder = Windows.Storage.ApplicationData.Current.RoamingFolder;
+            var file = await folder.CreateFileAsync("tickets.xml", CreationCollisionOption.OpenIfExists);
+            var content = await FileIO.ReadTextAsync(file);
+            
+            if (content == null || String.IsNullOrEmpty(content))
+                return null;
+
+            var xmlSerializer = new XmlSerializer(typeof(List<TicketDescription>));
+            using (var reader = new StringReader(content))
+            {
+                var tickets = xmlSerializer.Deserialize(reader) as List<TicketDescription>;
+                return tickets;
+            }
+        }
+
+        public async void SaveTicketDescriptions(IEnumerable<TicketDescription> tickets)
+        {
+            var folder = Windows.Storage.ApplicationData.Current.RoamingFolder;
+            var file = await folder.CreateFileAsync("tickets.xml", CreationCollisionOption.ReplaceExisting);
+            var xmlSerializer = new XmlSerializer(typeof(List<TicketDescription>));
+            using (var writer = new StringWriter()) 
+            {
+                xmlSerializer.Serialize(writer, tickets.ToList());
+                await FileIO.WriteTextAsync(file, writer.ToString());
+            }
+        }
     }
 }

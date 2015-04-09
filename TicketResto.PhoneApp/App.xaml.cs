@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Caliburn.Micro;
+using TicketResto.Core;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -29,20 +30,28 @@ namespace TicketResto.PhoneApp
             InitializeComponent();
         }
 
+        TicketsApp TicketApp = new TicketsApp();
+
 		protected override object GetInstance(Type service, string key)
 		{
 			if (service == typeof(AppViewModel))
-				return new AppViewModel(new Core.TicketsApp());
+                return new AppViewModel(this.TicketApp);
 			return base.GetInstance(service, key);
 		}
 
 		protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
+            base.OnLaunched(args);
+
             if (args.PreviousExecutionState == ApplicationExecutionState.Running)
                 return;
 
             this.DisplayRootViewFor<AppViewModel>();
-            base.OnLaunched(args);
+        }
+
+        protected override void OnSuspending(object sender, SuspendingEventArgs e)
+        {
+            base.OnSuspending(sender, e);
         }
     }
 }
