@@ -94,6 +94,13 @@ namespace TicketResto.PhoneApp
 			this.NotifyOfPropertyChange(() => this.CanCompute);
 		}
 
+        void RemoveTicketDescription(TicketDescriptionViewModel vm)
+        {
+            this.TicketDescriptions.Remove(vm);
+            SaveTickets();
+            this.NotifyOfPropertyChange(() => this.CanCompute);
+        }
+
         private void SaveTickets()
         {
             var tickets = this.TicketDescriptions.Select(desc => new TicketDescription(desc.Value, desc.MaxQuantity));

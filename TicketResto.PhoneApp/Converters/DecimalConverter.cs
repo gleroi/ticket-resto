@@ -17,7 +17,8 @@ namespace TicketResto.PhoneApp.Converters
 			if (value is decimal)
 			{
 				var dec = (decimal)value;
-				return dec.ToString(CultureInfo.CurrentUICulture);
+                CultureInfo currentCulture = new CultureInfo(Windows.System.UserProfile.GlobalizationPreferences.Languages[0]);
+				return dec.ToString(currentCulture);
 			}
 			return value;
 		}

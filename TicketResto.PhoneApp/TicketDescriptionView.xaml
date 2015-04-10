@@ -5,6 +5,7 @@
     xmlns:local="using:TicketResto.PhoneApp"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cal="using:Caliburn.Micro"
     mc:Ignorable="d"
     d:DesignHeight="60"
     d:DesignWidth="400">
@@ -13,13 +14,15 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="60*" />
             <ColumnDefinition Width="40*" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <TextBox x:Name="Value" Margin="3 7 7 0" InputScope="Number" 
+        <TextBox x:Name="Value" Margin="3 9 7 0" InputScope="Number" 
                  Text="{Binding Path=Value, Mode=TwoWay, Converter={StaticResource DecimalConverter}}"  />
 
-        <TextBox Grid.Column="1" Margin="3 7 0 0"
+        <TextBox Grid.Column="1" Margin="3 9 0 0"
                  x:Name="MaxQuantity" InputScope="Number" />
-                
+
+        <AppBarButton Grid.Column="2" Icon="Remove" cal:Message.Attach="RemoveTicketDescription($dataContext)"  />
     </Grid>
 </UserControl>
