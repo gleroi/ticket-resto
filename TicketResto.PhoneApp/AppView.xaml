@@ -28,8 +28,8 @@
         </Grid.RowDefinitions>
 
         <!-- Title Panel -->
-        <StackPanel Grid.Row="0" Margin="19,0,0,0">
-            <TextBlock Text="Tickets Répartis" Style="{ThemeResource TitleTextBlockStyle}" Margin="0,12,0,0"/>
+        <StackPanel Grid.Row="0" Margin="19,0,0,10">
+            <TextBlock Text="Tickets Répartis" Style="{ThemeResource SubheaderTextBlockStyle}" Margin="0,12,0,0"/>
         </StackPanel>
 
         <Grid Grid.Row="1">
@@ -44,8 +44,8 @@
             </Grid.RowDefinitions>
 
             <TextBlock Text="Montant" 
-                       Padding="0 0 0 0"
-					   Style="{ThemeResource BodyTextBlockStyle}" />
+                       Padding="0 0 0 0" Margin="0"
+					   Style="{ThemeResource TitleTextBlockStyle}" />
 
             <TextBox Grid.Column="0" Grid.Row="1"
                      x:Name="BillValue" 
@@ -66,8 +66,8 @@
 
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="60*" />
-                    <ColumnDefinition Width="40*" />
+                    <ColumnDefinition Width="53*" />
+                    <ColumnDefinition Width="47*" />
                 </Grid.ColumnDefinitions>
 
                 <Grid.RowDefinitions>
@@ -75,7 +75,7 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <TextBlock Text="Tickets" Style="{StaticResource BodyTextBlockStyle}" />
+                <TextBlock Text="Tickets" Style="{StaticResource TitleTextBlockStyle}" />
 
                 <TextBlock Grid.Row="1" Margin="3 0 7 0" Text="Valeur" Style="{StaticResource GroupHeaderTextBlockStyle}" />
                 <TextBlock Grid.Row="1" Grid.Column="1" Margin="3 0 0 0" Text="Quantité" Style="{StaticResource GroupHeaderTextBlockStyle}" />
@@ -98,7 +98,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Text="Solutions de paiement" Style="{StaticResource BodyTextBlockStyle}" 
+                <TextBlock Grid.Row="0" Text="Solutions de paiement" Style="{StaticResource TitleTextBlockStyle}" 
                            VerticalAlignment="Bottom"/>
 
                 <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2">
