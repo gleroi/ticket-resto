@@ -52,40 +52,48 @@
 
             <TextBox Grid.Column="0" Grid.Row="1"
                      x:Name="BillValue" 
-					 Margin="3 9 3 3"
+					 Margin="3 3 3 3"
 					 InputScope="Number"
 					 Text="{Binding BillValue, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" />
 
             <TextBlock Grid.Row="1" Grid.Column="1" Text="€" 
-                       FontSize="40" Margin="11 7 11 0" />
+                       FontSize="40" Margin="11 1 11 0" />
 
         </Grid>
 
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" Margin="0 11 0 0">
             <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="53*" />
-                    <ColumnDefinition Width="47*" />
-                </Grid.ColumnDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="53*" />
+                <ColumnDefinition Width="47*" />
+            </Grid.ColumnDefinitions>
 
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                </Grid.RowDefinitions>
+            <TextBlock Text="Tickets" Style="{StaticResource TitleTextBlockStyle}" />
 
-                <TextBlock Text="Tickets" Style="{StaticResource TitleTextBlockStyle}" />
+            <SymbolIcon Grid.Column="1"
+                        Symbol="{Binding IsTicketExpanded, Converter={StaticResource BoolToExpandedSymbolConverter}}"
+                        Margin="0 0 15 0"
+                        cal:Message.Attach="[Event Tapped] = [Action ToggleTickets()]"
+                        HorizontalAlignment="Right"/>
+            
+            <TextBlock Grid.Row="1" Text="Valeur" 
+                       Margin="3 0 7 0" 
+                       Visibility="{Binding IsTicketExpanded, Converter={StaticResource BoolToVisibilityConverter}}"
+                       Style="{StaticResource GroupHeaderTextBlockStyle}" />
 
-                <TextBlock Grid.Row="1" Margin="3 0 7 0" Text="Valeur" Style="{StaticResource GroupHeaderTextBlockStyle}" />
-                <TextBlock Grid.Row="1" Grid.Column="1" Margin="3 0 0 0" Text="Quantité" Style="{StaticResource GroupHeaderTextBlockStyle}" />
+            <TextBlock Grid.Row="1" Grid.Column="1" Text="Quantité" 
+                       Margin="3 0 0 0" 
+                       Visibility="{Binding IsTicketExpanded, Converter={StaticResource BoolToVisibilityConverter}}"
+                       Style="{StaticResource GroupHeaderTextBlockStyle}" />
 
-            </Grid>
-
-            <ItemsControl Grid.Row="1" x:Name="TicketDescriptions" VerticalAlignment="Top" VerticalContentAlignment="Top">
+            <ItemsControl Grid.Row="2" Grid.ColumnSpan="2"
+                          Visibility="{Binding IsTicketExpanded, Converter={StaticResource BoolToVisibilityConverter}}"
+                          x:Name="TicketDescriptions">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top" />
@@ -100,7 +108,7 @@
         </Grid>
 
 
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="3" Margin="0 11 0 0">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -119,7 +127,7 @@
                 <ProgressBar VerticalAlignment="Bottom" 
                              Visibility="{Binding IsComputing, Converter={StaticResource BoolToVisibilityConverter}}" 
                              Value="{Binding ComputeProgress}" />
-                
+
                 <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2">
                     <ItemsControl x:Name="Results" ItemsSource="{Binding Results}">
                         <ItemsControl.ItemTemplate>
@@ -161,7 +169,7 @@
             </Grid>
         </Grid>
     </Grid>
-    
+
     <Page.BottomAppBar>
         <CommandBar>
             <AppBarButton x:Name="AddTicketDescription" Icon="Add" Label="Ticket" />

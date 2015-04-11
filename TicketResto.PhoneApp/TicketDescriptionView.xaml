@@ -23,6 +23,7 @@
         <TextBox Grid.Column="1" Margin="3 9 0 0"
                  Text="{Binding Path=MaxQuantity, Mode=TwoWay}" InputScope="Number" />
 
-        <AppBarButton Grid.Column="2" Icon="Remove" cal:Message.Attach="RemoveTicketDescription($dataContext)"  />
+        <AppBarButton Grid.Column="2" Icon="Remove" 
+                      cal:Message.Attach="RemoveTicketDescription($dataContext)" />
     </Grid>
 </UserControl>

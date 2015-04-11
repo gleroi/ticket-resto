@@ -28,11 +28,14 @@ namespace TicketResto.Core
                     progress.Report((int)Math.Round((current * 1d / total) * 100));
 
                     var remainingChange = bill - sol.Sum(desc => desc.Value * desc.MaxQuantity);
-                    results.Add(new Result
+                    if (remainingChange >= -1)
                     {
-                        ChangeValue = remainingChange,
-                        Tickets = new ObservableCollection<TicketDescription>(sol),
-                    });
+                        results.Add(new Result
+                        {
+                            ChangeValue = remainingChange,
+                            Tickets = new ObservableCollection<TicketDescription>(sol),
+                        });
+                    }
                     current += 1;
                 }
                 return results.OrderBy(desc => Math.Abs(desc.ChangeValue));

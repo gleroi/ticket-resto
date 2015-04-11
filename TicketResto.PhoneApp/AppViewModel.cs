@@ -21,12 +21,14 @@ namespace TicketResto.PhoneApp
             this.TicketDescriptions.CollectionChanged += TicketDescriptions_CollectionChanged;
             this.Results = new ObservableCollection<Result>();
             this.IsComputing = false;
-            //if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
-            //{
-            //    this.TicketDescriptions.Add(new TicketDescriptionViewModel { MaxQuantity = 5, Value = 7.66M });
-            //    this.TicketDescriptions.Add(new TicketDescriptionViewModel { MaxQuantity = 15, Value = 17.66M });
-            //    this.TicketDescriptions.Add(new TicketDescriptionViewModel { MaxQuantity = 88, Value = 88.00M });
-            //}
+            this.IsTicketExpanded = true;
+
+            if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+            {
+                this.TicketDescriptions.Add(new TicketDescriptionViewModel { MaxQuantity = 5, Value = 7.66M });
+                this.TicketDescriptions.Add(new TicketDescriptionViewModel { MaxQuantity = 15, Value = 17.66M });
+                this.TicketDescriptions.Add(new TicketDescriptionViewModel { MaxQuantity = 88, Value = 88.00M });
+            }
         }
 
         void TicketDescriptions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -127,6 +129,19 @@ namespace TicketResto.PhoneApp
             }
         }
 
+        private bool isTicketExpanded;
+
+        public bool IsTicketExpanded
+        {
+            get { return isTicketExpanded; }
+            set { isTicketExpanded = value; this.RaisePropertyChanged(); }
+        }
+
+        void ToggleTickets()
+        {
+            this.IsTicketExpanded = !this.IsTicketExpanded;
+        }
+
         private bool isComputing;
         public bool IsComputing
         {
@@ -158,6 +173,7 @@ namespace TicketResto.PhoneApp
             var repartition = await this.TicketsApp.ComputeRepartition(this.BillValue, tickets, this);
             this.Results = new ObservableCollection<Result>(repartition);
             this.IsComputing = false;
+            this.IsTicketExpanded = false;
         }
 
         public bool CanCompute
