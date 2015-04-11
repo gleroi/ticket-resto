@@ -12,24 +12,37 @@ namespace TicketResto.Core
 {
     public class TicketsApp
     {
-        public IEnumerable<Result> ComputeRepartition(decimal bill, IEnumerable<TicketDescription> descriptions)
+
+        public async Task<IEnumerable<Result>> ComputeRepartition(
+            decimal bill, 
+            IEnumerable<TicketDescription> descriptions,
+            IProgress<int> progress)
         {
-			var results = new List<Result>();
-			foreach (var sol in EnumerateSolutions(descriptions))
-			{
-				var remainingChange = bill - sol.Sum(desc => desc.Value * desc.MaxQuantity);
-					results.Add(new Result
-					{
-						ChangeValue = remainingChange,
-						Tickets = new ObservableCollection<TicketDescription>(sol),
-					});
-			}
-			return results.OrderBy(desc => Math.Abs(desc.ChangeValue));
+            var repartition = await Task.Run(() =>
+            {
+			    var results = new List<Result>();
+                var total = descriptions.Aggregate(1, (acc, tic) => acc * tic.MaxQuantity);
+                var current = 0;
+                foreach (var sol in EnumerateSolutions(descriptions))
+                {
+                    progress.Report((int)Math.Round((current * 1d / total) * 100));
+
+                    var remainingChange = bill - sol.Sum(desc => desc.Value * desc.MaxQuantity);
+                    results.Add(new Result
+                    {
+                        ChangeValue = remainingChange,
+                        Tickets = new ObservableCollection<TicketDescription>(sol),
+                    });
+                    current += 1;
+                }
+                return results.OrderBy(desc => Math.Abs(desc.ChangeValue));
+            });
+            return repartition;
         }
 
 		private List<TicketDescription> Next(List<TicketDescription> current, List<TicketDescription> maxs)
 		{
-			var next = current.Select(desc => new TicketDescription(desc.Value, desc.MaxQuantity)).ToList();
+			var next = new List<TicketDescription>(current);
 
 			for (int i = 0; i < current.Count; i++)
 			{
@@ -40,7 +53,7 @@ namespace TicketResto.Core
 				}
 				else
 				{
-					next[i] = new TicketDescription(ticket.Value, ticket.MaxQuantity + 1);
+                    next[i] = new TicketDescription(ticket.Value, ticket.MaxQuantity + 1);
 					break;
 				}
 			}

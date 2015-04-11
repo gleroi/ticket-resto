@@ -3,5 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:TicketResto.PhoneApp"
 	xmlns:converters="using:TicketResto.PhoneApp.Converters">
-	<converters:DecimalConverter x:Key="DecimalConverter" />
+    <converters:DecimalConverter x:Key="DecimalConverter" />
+    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 </ResourceDictionary>

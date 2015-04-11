@@ -11,16 +11,23 @@ using TicketResto.Core;
 
 namespace TicketResto.PhoneApp
 {
-    class AppViewModel : Screen
+    class AppViewModel : Screen, IProgress<int>
     {
-		private readonly TicketsApp TicketsApp;
+        private readonly TicketsApp TicketsApp;
 
-		public AppViewModel()
-		{
-			this.TicketDescriptions = new ObservableCollection<TicketDescriptionViewModel>();
+        public AppViewModel()
+        {
+            this.TicketDescriptions = new ObservableCollection<TicketDescriptionViewModel>();
             this.TicketDescriptions.CollectionChanged += TicketDescriptions_CollectionChanged;
-			this.Results = new ObservableCollection<Result>();
-		}
+            this.Results = new ObservableCollection<Result>();
+            this.IsComputing = false;
+            //if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
+            //{
+            //    this.TicketDescriptions.Add(new TicketDescriptionViewModel { MaxQuantity = 5, Value = 7.66M });
+            //    this.TicketDescriptions.Add(new TicketDescriptionViewModel { MaxQuantity = 15, Value = 17.66M });
+            //    this.TicketDescriptions.Add(new TicketDescriptionViewModel { MaxQuantity = 88, Value = 88.00M });
+            //}
+        }
 
         void TicketDescriptions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
@@ -50,12 +57,12 @@ namespace TicketResto.PhoneApp
             this.SaveTickets();
         }
 
-		public AppViewModel(TicketsApp app)
-			:  this()
-		{
-			this.TicketsApp = app;
+        public AppViewModel(TicketsApp app)
+            : this()
+        {
+            this.TicketsApp = app;
             Initialize();
-		}
+        }
 
         private async void Initialize()
         {
@@ -70,29 +77,29 @@ namespace TicketResto.PhoneApp
             }
         }
 
-		public ObservableCollection<TicketDescriptionViewModel> TicketDescriptions { get; set; }
+        public ObservableCollection<TicketDescriptionViewModel> TicketDescriptions { get; set; }
 
-		ObservableCollection<Result> _results;
-		public ObservableCollection<Result> Results
-		{
-			get { return this._results; }
-			private set
-			{
-				this._results = value; this.RaisePropertyChanged();
-			}
-		}
+        ObservableCollection<Result> _results;
+        public ObservableCollection<Result> Results
+        {
+            get { return this._results; }
+            private set
+            {
+                this._results = value; this.RaisePropertyChanged();
+            }
+        }
 
         protected void RaisePropertyChanged([CallerMemberName]string property = null)
         {
             this.NotifyOfPropertyChange(property);
         }
 
-		void AddTicketDescription()
+        void AddTicketDescription()
         {
             this.TicketDescriptions.Add(new TicketDescriptionViewModel());
             SaveTickets();
-			this.NotifyOfPropertyChange(() => this.CanCompute);
-		}
+            this.NotifyOfPropertyChange(() => this.CanCompute);
+        }
 
         void RemoveTicketDescription(TicketDescriptionViewModel vm)
         {
@@ -107,30 +114,65 @@ namespace TicketResto.PhoneApp
             this.TicketsApp.SaveTicketDescriptions(tickets);
         }
 
-		private decimal _billValue;
+        private decimal _billValue;
 
-		public decimal BillValue
-		{
-			get { return _billValue; }
-			set
-			{
-				_billValue = value;
-				this.RaisePropertyChanged();
-				this.NotifyOfPropertyChange(() => this.CanCompute);
-			}
-		}
+        public decimal BillValue
+        {
+            get { return _billValue; }
+            set
+            {
+                _billValue = value;
+                this.RaisePropertyChanged();
+                this.NotifyOfPropertyChange(() => this.CanCompute);
+            }
+        }
 
-		public void Compute()
-		{
-			var tickets = this.TicketDescriptions.Select(desc => new TicketDescription(desc.Value, desc.MaxQuantity));
-			this.Results = new ObservableCollection<Result>(this.TicketsApp.ComputeRepartition(this.BillValue, tickets));
-		}
+        private bool isComputing;
+        public bool IsComputing
+        {
+            get { return isComputing; }
+            set
+            {
+                isComputing = value;
+                if (!IsComputing)
+                {
+                    this.ComputeProgress = 0;
+                }
+                this.RaisePropertyChanged();
+            }
+        }
 
-		public bool CanCompute
-		{
-			get { return this.TicketDescriptions.Any() && this.BillValue != 0; }
-		}
+        private int computeProgress;
+        public int ComputeProgress
+        {
+            get { return computeProgress; }
+            set { computeProgress = value; this.RaisePropertyChanged(); }
+        }
 
 
-	}
+        public async void Compute()
+        {
+            this.IsComputing = true;
+
+            var tickets = this.TicketDescriptions.Select(desc => new TicketDescription(desc.Value, desc.MaxQuantity));
+            var repartition = await this.TicketsApp.ComputeRepartition(this.BillValue, tickets, this);
+            this.Results = new ObservableCollection<Result>(repartition);
+            this.IsComputing = false;
+        }
+
+        public bool CanCompute
+        {
+            get { return this.TicketDescriptions.Any() && this.BillValue != 0; }
+        }
+
+        #region IProgress<int> Members
+
+        public void Report(int value)
+        {
+            value = value > 100 ? 100 : value;
+            this.ComputeProgress = value;
+        }
+
+        #endregion
+    }
 }

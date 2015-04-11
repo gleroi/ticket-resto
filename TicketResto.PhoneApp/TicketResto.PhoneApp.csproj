@@ -90,6 +90,7 @@
     <Compile Include="Common\ObservableDictionary.cs" />
     <Compile Include="Common\RelayCommand.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\DecimalConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TicketDescriptionView.xaml.cs">

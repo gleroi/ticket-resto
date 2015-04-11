@@ -5,7 +5,10 @@
     xmlns:local="using:TicketResto.PhoneApp"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:cal="using:Caliburn.Micro"
     mc:Ignorable="d"
+    d:DataContext="{d:DesignInstance Type=local:AppViewModel, IsDesignTimeCreatable=True}"
+    cal:Bind.AtDesignTime="True"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Page.Resources>
@@ -54,7 +57,7 @@
 					 Text="{Binding BillValue, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" />
 
             <TextBlock Grid.Row="1" Grid.Column="1" Text="€" 
-                       FontSize="40" Margin="0 7 5 0" />
+                       FontSize="40" Margin="11 7 11 0" />
 
         </Grid>
 
@@ -82,7 +85,18 @@
 
             </Grid>
 
-            <ItemsControl Grid.Row="1" x:Name="TicketDescriptions" />
+            <ItemsControl Grid.Row="1" x:Name="TicketDescriptions" VerticalAlignment="Top" VerticalContentAlignment="Top">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Top" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:TicketDescriptionView HorizontalContentAlignment="Stretch" VerticalAlignment="Top" Height="55" />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </Grid>
 
 
@@ -99,8 +113,13 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Row="0" Text="Solutions de paiement" Style="{StaticResource TitleTextBlockStyle}" 
+                           Margin="0 0 0 3"
                            VerticalAlignment="Bottom"/>
 
+                <ProgressBar VerticalAlignment="Bottom" 
+                             Visibility="{Binding IsComputing, Converter={StaticResource BoolToVisibilityConverter}}" 
+                             Value="{Binding ComputeProgress}" />
+                
                 <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2">
                     <ItemsControl x:Name="Results" ItemsSource="{Binding Results}">
                         <ItemsControl.ItemTemplate>
