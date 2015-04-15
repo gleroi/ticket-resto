@@ -32,7 +32,8 @@
 
         <!-- Title Panel -->
         <StackPanel Grid.Row="0" Margin="19,0,0,10">
-            <TextBlock Text="Tickets Répartis" Style="{ThemeResource SubheaderTextBlockStyle}" Margin="0,12,0,0"/>
+            <TextBlock x:Uid="AppTitle" Text="Tickets répartis" 
+					   Style="{ThemeResource SubheaderTextBlockStyle}" Margin="0,12,0,0"/>
         </StackPanel>
 
         <Grid Grid.Row="1">
@@ -46,7 +47,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <TextBlock Text="Montant" 
+            <TextBlock x:Uid="LblMontant" Text="Montant"
                        Padding="0 0 0 0" Margin="0"
 					   Style="{ThemeResource TitleTextBlockStyle}" />
 
@@ -56,7 +57,8 @@
 					 InputScope="Number"
 					 Text="{Binding BillValue, Mode=TwoWay, Converter={StaticResource DecimalConverter}}" />
 
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="€" 
+            <TextBlock Grid.Row="1" Grid.Column="1" 
+					   x:Uid="LblMonnaie" Text="€" 
                        FontSize="40" Margin="11 1 11 0" />
 
         </Grid>
@@ -73,20 +75,26 @@
                 <ColumnDefinition Width="47*" />
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="Tickets" Style="{StaticResource TitleTextBlockStyle}" />
+            <TextBlock x:Uid="LblTickets"
+				Grid.ColumnSpan="2"
+				cal:Message.Attach="[Event Tapped] = [Action ToggleTickets()]"
+				Margin="0 3 0 5"
+				Text="Tickets" Style="{StaticResource TitleTextBlockStyle}" />
 
             <SymbolIcon Grid.Column="1"
                         Symbol="{Binding IsTicketExpanded, Converter={StaticResource BoolToExpandedSymbolConverter}}"
                         Margin="0 0 15 0"
                         cal:Message.Attach="[Event Tapped] = [Action ToggleTickets()]"
-                        HorizontalAlignment="Right"/>
+                        HorizontalAlignment="Right" />
             
-            <TextBlock Grid.Row="1" Text="Valeur" 
+            <TextBlock x:Uid="LblValeur"
+				Grid.Row="1" Text="Valeur" 
                        Margin="3 0 7 0" 
                        Visibility="{Binding IsTicketExpanded, Converter={StaticResource BoolToVisibilityConverter}}"
                        Style="{StaticResource GroupHeaderTextBlockStyle}" />
 
-            <TextBlock Grid.Row="1" Grid.Column="1" Text="Quantité" 
+            <TextBlock x:Uid="LblQuantite"
+				Grid.Row="1" Grid.Column="1" Text="Quantité" 
                        Margin="3 0 0 0" 
                        Visibility="{Binding IsTicketExpanded, Converter={StaticResource BoolToVisibilityConverter}}"
                        Style="{StaticResource GroupHeaderTextBlockStyle}" />
@@ -120,7 +128,8 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Text="Solutions de paiement" Style="{StaticResource TitleTextBlockStyle}" 
+                <TextBlock x:Uid="LblSolutions"
+					Grid.Row="0" Text="Solutions de paiement" Style="{StaticResource TitleTextBlockStyle}" 
                            Margin="0 0 0 3"
                            VerticalAlignment="Bottom"/>
 
@@ -172,8 +181,8 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton x:Name="AddTicketDescription" Icon="Add" Label="Ticket" />
-            <AppBarButton x:Name="Compute" Icon="Calculator" Label="Répartir" />
+            <AppBarButton x:Uid="BtnAddTicket" x:Name="AddTicketDescription" Icon="Add" Label="Ticket" />
+            <AppBarButton x:Uid="BtnCompute" x:Name="Compute" Icon="Calculator" Label="Répartir" />
         </CommandBar>
     </Page.BottomAppBar>
 </Page>

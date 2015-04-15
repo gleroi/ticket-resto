@@ -133,6 +133,8 @@
   <ItemGroup>
     <None Include="Assets\build-asset.ps1" />
     <None Include="packages.config" />
+    <PRIResource Include="Strings\en-US\Resources.resw" />
+    <PRIResource Include="Strings\fr-FR\Resources.resw" />
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="BehaviorsXamlSDKManaged, version=12.0">
