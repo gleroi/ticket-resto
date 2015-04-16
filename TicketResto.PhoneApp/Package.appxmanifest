@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="8f979db0-027a-4133-9f27-15cea6509f78" Publisher="CN=Guillaume" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="8f979db0-027a-4133-9f27-15cea6509f78" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="38084GuillaumeLeroi.TicketsRpartis" Publisher="CN=D69A0EC6-5D47-4B96-BA4E-2051918AD8CF" Version="1.1.0.1" />
+  <mp:PhoneIdentity PhoneProductId="c6e1d375-947c-4402-94be-f7c4611f943e" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>TicketResto.PhoneApp</DisplayName>
+    <DisplayName>Tickets Répartis</DisplayName>
     <PublisherDisplayName>Guillaume Leroi</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>

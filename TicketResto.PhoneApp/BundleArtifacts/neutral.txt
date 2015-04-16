@@ -1,0 +1,3 @@
+MainPackage=C:\Projets\TicketResto\TicketResto.PhoneApp\bin\Release\TicketResto.PhoneApp_1.1.0.1_Bundle\TicketResto.PhoneApp_1.1.0.1_AnyCPU.appx
+SymbolPackage=C:\Projets\TicketResto\TicketResto.PhoneApp\AppPackages\TicketResto.PhoneApp_1.1.0.1_Test\TicketResto.PhoneApp_1.1.0.1_AnyCPU.appxsym
+ResourcePack=C:\Projets\TicketResto\TicketResto.PhoneApp\bin\Release\TicketResto.PhoneApp_1.1.0.1_Bundle\TicketResto.PhoneApp_1.1.0.1_language-fr.appx
